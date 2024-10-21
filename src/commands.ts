@@ -12,3 +12,15 @@ export async function list(store: Store<RecipeType[]>, args: string[]) {
   console.log('Your recipes:');
   console.log(formatted);
 }
+
+export async function details(store: Store<RecipeType[]>, args: string[]) {
+  if (args.length !== 1) throw new AppError('Error: The details command should only have one argument.');
+  const id: number = parseInt(args[0]);
+  if (typeof id !== 'number') throw new AppError('Error: The argument is not a number. The details command only accepts one numeric argument.');
+  
+  const recipe = new Recipe(store);
+  const foundRecipe: RecipeType = await recipe.getById(id);
+
+  console.log(`ID: ${foundRecipe.id}`);
+  console.log(`Name: ${foundRecipe.name}`);
+}
